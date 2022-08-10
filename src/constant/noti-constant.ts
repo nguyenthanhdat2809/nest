@@ -1,0 +1,14 @@
+const NOT_CONSTANT = {};
+
+export enum ResponseCodeEnum {
+  NOT_FOUND = 404,
+  INTERNAL_SERVER_ERROR = 500,
+  UNAUTHORIZED = 401,
+  TOKEN_EXPIRED = 403,
+  FORBIDDEN = 403,
+  BAD_REQUEST = 400,
+  SUCCESS = 200,
+  NOT_ACCEPTABLE = 406,
+}
+
+export default NOT_CONSTANT;
