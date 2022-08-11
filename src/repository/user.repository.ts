@@ -12,7 +12,11 @@ export class UserRepository implements UserRepositoryInterface {
     private readonly userRepository: Repository<UserEntity>,
   ) {}
 
-  getAllUsers(): Promise<UserEntity[]> {
+  async getAllUsers(): Promise<UserEntity[]> {
     return this.userRepository.createQueryBuilder().getMany();
+  }
+
+  async createUser(createUser: UserEntity): Promise<UserEntity> {
+    return await this.userRepository.save(createUser);
   }
 }

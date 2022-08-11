@@ -3,8 +3,10 @@ import { UserServiceInterface } from './interfaces/user.service.interface';
 import { UserRepositoryInterface } from './interfaces/user.repository.interface';
 import { GetAllUserDto } from './dto/response/get-all-user.dto';
 import { plainToInstance } from 'class-transformer';
-import { ResponseBuilder } from '../../core/common/responseBuilder/responseBuilder.dto';
-import { ResponsePayloadDto } from '../../core/common/responseBuilder/responsePayload.dto';
+import { ResponseBuilder } from '../../common/responseBuilder/responseBuilder.dto';
+import { ResponsePayloadDto } from '../../common/responseBuilder/responsePayload.dto';
+import { CreateNewUserDto } from './dto/request/create-new-user.dto';
+import { UserEntity } from '../../entity/user/user.entity';
 
 @Injectable()
 export class UserService implements UserServiceInterface {
@@ -21,5 +23,27 @@ export class UserService implements UserServiceInterface {
       .withMessage('success')
       .withCode(200)
       .build();
+  }
+
+  async createUser(
+    createUser: CreateNewUserDto,
+  ): Promise<ResponsePayloadDto<string>> {
+    const newUser = await this.userRepository.createUser(
+      <UserEntity>createUser,
+    );
+
+    if (newUser) {
+      return new ResponseBuilder<string>()
+        .withData('Create successfully!')
+        .withMessage('success')
+        .withCode(200)
+        .build();
+    } else {
+      return new ResponseBuilder<string>()
+        .withData('Create fail!!')
+        .withMessage('fail')
+        .withCode(200)
+        .build();
+    }
   }
 }

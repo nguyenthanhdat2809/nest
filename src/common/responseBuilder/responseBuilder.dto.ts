@@ -1,5 +1,5 @@
 import { ResponsePayloadDto } from './responsePayload.dto';
-import { ResponseCodeEnum } from '../../../constant/noti-constant';
+import { ResponseCodeEnum } from '../../constant/noti-constant';
 
 export class ResponseBuilder<T> {
   private payload: ResponsePayloadDto<T> = {
