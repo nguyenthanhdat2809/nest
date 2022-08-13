@@ -1,8 +1,9 @@
-import { ResponsePayloadDto } from './responsePayload.dto';
-import { ResponseCodeEnum } from '../../constant/noti-constant';
+
+import { ResponseCodeEnum } from '../../constant/code-response-constant';
+import { ResponsePayload } from './responsePayload.dto';
 
 export class ResponseBuilder<T> {
-  private payload: ResponsePayloadDto<T> = {
+  private payload: ResponsePayload<T> = {
     statusCode: ResponseCodeEnum.SUCCESS,
   };
 
@@ -25,7 +26,7 @@ export class ResponseBuilder<T> {
     return this;
   }
 
-  build(): ResponsePayloadDto<T> {
+  build(): ResponsePayload<T> {
     return this.payload;
   }
 }

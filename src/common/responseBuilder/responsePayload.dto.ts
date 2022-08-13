@@ -1,6 +1,6 @@
 import { Expose } from 'class-transformer';
 
-export class ResponsePayloadDto<T> {
+export class ResponsePayload<T> {
   @Expose()
   statusCode: number;
 

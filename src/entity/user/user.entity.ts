@@ -11,6 +11,12 @@ export class UserEntity {
   public name: string;
 
   @Column()
+  public email: string;
+
+  @Column()
+  public password: string;
+
+  @Column()
   public address: string;
 
   @Column()

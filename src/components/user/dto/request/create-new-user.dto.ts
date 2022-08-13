@@ -1,5 +1,5 @@
 import { Transform } from 'class-transformer';
-import { IsEnum, IsInt, IsNotEmpty, IsString } from 'class-validator';
+import { IsEmail, IsEnum, IsNotEmpty, IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { IProfile } from '../../../../entity/user/interface/profile.interface';
 import { GenderEnum } from '../../../../entity/user/enum/gender.enum';
@@ -10,8 +10,25 @@ export class CreateNewUserDto {
   @Transform((e) => {
     return typeof e.value === 'string' ? e.value.trim() : e.value;
   })
-  @ApiProperty({ type: String, description: 'Email phải đúng định dạng' })
+  @ApiProperty({ type: String, description: 'Tên phải đúng định dạng' })
   name: string;
+
+  @IsString()
+  @IsEmail()
+  @IsNotEmpty()
+  @Transform((e) => {
+    return typeof e.value === 'string' ? e.value.trim() : e.value;
+  })
+  @ApiProperty({ type: String, description: 'Email phải đúng định dạng' })
+  email: string;
+
+  @IsString()
+  @IsNotEmpty()
+  @Transform((e) => {
+    return typeof e.value === 'string' ? e.value.trim() : e.value;
+  })
+  @ApiProperty({ type: String, description: 'Email phải đúng định dạng' })
+  password: string;
 
   @IsNotEmpty()
   @IsString()

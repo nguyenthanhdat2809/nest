@@ -1,0 +1,14 @@
+{
+  "NOT_FOUND": "Không tìm thấy dữ liệu",
+  "INTERNAL_SERVER_ERROR": "Lỗi máy chủ",
+  "UNAUTHORIZED": "Không được ủy quyền",
+  "FORBIDDEN": "Quyền truy cập bị từ chối",
+  "BAD_REQUEST": "Yêu cầu không hợp lệ",
+  "SUCCESS": "Thành công",
+  "CAN_NOT_CONFIRM": "Xác thực thất bại",
+  "TOKEN_EXPIRED": "Mã xác nhận đã hết hạn",
+  "WRONG_USERNAME_PASSWORD": "Bạn đã nhập sai tên hoặc mật khẩu",
+  "USERNAME_ALREADY_EXISTS": "Dữ liệu tên đăng nhập đã tồn tại",
+  "EMAIL_ALREADY_EXISTS": "Dữ liệu email đã tồn tại",
+  "USER_ROLE_NOT_FOUND": "Không tìm thấy dữ liệu vai trò người dùng"
+}

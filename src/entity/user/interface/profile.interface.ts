@@ -1,5 +1,6 @@
 export interface IProfile {
-  name: string;
+  shortName: string;
   age: number;
-  interests: string[];
+  questions: string[];
+  answer: string[];
 }
