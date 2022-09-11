@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { UserServiceInterface } from './interfaces/user.service.interface';
 import { UserRepositoryInterface } from './interfaces/user.repository.interface';
 import { GetAllUserDto } from './dto/response/get-all-user.dto';
@@ -7,6 +7,7 @@ import { ResponseBuilder } from '../../common/responseBuilder/responseBuilder.dt
 import { CreateNewUserDto } from './dto/request/create-new-user.dto';
 import { UserEntity } from '../../entity/user/user.entity';
 import { ResponsePayload } from '../../common/responseBuilder/responsePayload.dto';
+import * as bcrypt from 'bcrypt';
 import {
   getMessage,
   ResponseCodeEnum,
@@ -20,34 +21,42 @@ export class UserService implements UserServiceInterface {
   ) {}
 
   async findAllUser(): Promise<ResponsePayload<GetAllUserDto[]>> {
-    const users = await this.userRepository.getAllUsers();
-    const response = plainToInstance(GetAllUserDto, users);
-    return new ResponseBuilder<GetAllUserDto[]>()
-      .withData(response)
-      .withMessage(getMessage(ResponseCodeEnum.SUCCESS))
-      .withCode(ResponseCodeEnum.SUCCESS)
-      .build();
+    try {
+      const users = await this.userRepository.findAll();
+
+      const response = plainToInstance(GetAllUserDto, users);
+      return new ResponseBuilder<GetAllUserDto[]>()
+        .withData(response)
+        .withMessage(getMessage(ResponseCodeEnum.SUCCESS))
+        .withCode(ResponseCodeEnum.SUCCESS)
+        .build();
+    } catch (e) {
+      throw new HttpException(e, HttpStatus.FORBIDDEN);
+    }
   }
 
   async createUser(
-    createUser: CreateNewUserDto,
+    request: CreateNewUserDto,
   ): Promise<ResponsePayload<string>> {
-    const newUser = await this.userRepository.createUser(
-      <UserEntity>createUser,
-    );
+    try {
+      const salt = await bcrypt.genSalt();
+      const hash = await this.hashPassword(salt, request.password);
+      await this.userRepository.create({
+        ...(<UserEntity>request),
+        password: hash,
+      });
 
-    if (newUser) {
       return new ResponseBuilder<string>()
         .withData('Create successfully!')
         .withMessage(getMessage(ResponseCodeEnum.SUCCESS))
         .withCode(ResponseCodeEnum.SUCCESS)
         .build();
-    } else {
-      return new ResponseBuilder<string>()
-        .withData('Create fail!!')
-        .withMessage(getMessage(ResponseCodeEnum.BAD_REQUEST))
-        .withCode(ResponseCodeEnum.BAD_REQUEST)
-        .build();
+    } catch (e) {
+      throw new HttpException(e, HttpStatus.FORBIDDEN);
     }
+  }
+
+  private async hashPassword(salt: string, password: string): Promise<string> {
+    return await bcrypt.hash(password, salt);
   }
 }

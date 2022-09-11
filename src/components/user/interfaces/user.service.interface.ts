@@ -4,5 +4,5 @@ import { ResponsePayload } from '../../../common/responseBuilder/responsePayload
 
 export interface UserServiceInterface {
   findAllUser(): Promise<ResponsePayload<GetAllUserDto[]>>;
-  createUser(createUser: CreateNewUserDto): Promise<ResponsePayload<string>>;
+  createUser(request: CreateNewUserDto): Promise<ResponsePayload<string>>;
 }
